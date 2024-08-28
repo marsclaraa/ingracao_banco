@@ -2,20 +2,108 @@
 
 namespace App\Http\Controllers;
 
+use App\Service\UsuarioServece;
 use App\Service\UsuarioService;
 use Illuminate\Http\Request;
 
 class UsuarioController extends Controller
-//instancia é oq torna o objeto unico
 {
-    protected $usuarioService;
-    public function __construct(UsuarioService $novoUsuarioService)
+    protected $usuarioService; // vai receber a instância da classe Service
+
+    public function __construct(UsuarioService $novoUsuarioService) // método construtor dá liberdade de acessar os atributos da classe
     {
-        $this->usuarioService = $novoUsuarioService;
+        $this->usuarioService = $novoUsuarioService; //acessar a classe e depois acessar a função
+
     }
+
     public function store(Request $request)
     {
-        $user = $this->usuarioService->create($request->all());
+        $user = $this->usuarioService->create($request->all()); // recebe o resultado da função create e os dados da request
         return $user;
     }
+
+
+    public function findById($id)
+    { //espera receber o id aqui
+        $result = $this->usuarioService->findById($id); //chama a função do service no banco de dados
+        return response()->json($result);
+    }
+
+
+
+    public function index()
+    {
+        $result = $this->usuarioService->getAll();
+        return response()->json($result);
+    }
+
+
+    public function searchByName(Request $request)
+    {
+        $request = $this->usuarioService->searchByName($request->nome);
+    }
+
+
+    public function searchByEmail(Request $request)
+    {
+        $request = $this->usuarioService->searchByEmail($request->email);
+    }
+    public function delete($id)
+    {
+        $result = $this->usuarioService->delete($id);
+        return response()->json($result);
+    }
+
+    
+    
+    public function update (Request $request){
+$result = $this ->usuarioService ->update ($request->all());
+return response()->json($result);
+
+    }
+
+    public function findById($id){
+        $result = $this->usuarioService->findById($id); 
+
+        return response()->json($result); // resposta para json 
+
+    }
+
+    public function index(){
+        $result = $this->usuarioService->getAll(); // não recebe nenhum parâmetro pois não vai pesquisar por nada
+
+        return response()->json($result);
+        
+    }
+
+    public function searchByName(Request $request){ // request porque vai pesquisar pelo nome
+        $result = $this->usuarioService->searchByName($request->email);
+
+        return response()->json($result);
+
+        
+    }
+
+    public function searchByEmail(Request $request){
+        $result = $this->usuarioService->searchByEmail($request->email); // tudo que tem entrada recebe uma request
+
+        return response()->json($result);
+
+    }
+
+    public function delete($id){
+        $result = $this->usuarioService->delete($id);
+
+        return response()->json($result);
+
+
+    }
+
+    public function update(Request $request){
+        $result = $this->usuarioService->update($request->all()); // todos os dados da request
+
+        return response()->json($result);
+
+    }
+
 }
