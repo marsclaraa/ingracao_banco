@@ -14,51 +14,14 @@ class UsuarioController extends Controller
     {
         $this->usuarioService = $novoUsuarioService; //acessar a classe e depois acessar a função
 
-    }
+    } 
 
     public function store(Request $request)
     {
-        $user = $this->usuarioService->create($request->all()); // recebe o resultado da função create e os dados da request
-        return $user;
-    }
+       $user = $this->usuarioService->create($request->all()); // recebe o resultado da funçãocreate e os dados da request
 
+       return $user; 
 
-    public function findById($id)
-    { //espera receber o id aqui
-        $result = $this->usuarioService->findById($id); //chama a função do service no banco de dados
-        return response()->json($result);
-    }
-
-
-
-    public function index()
-    {
-        $result = $this->usuarioService->getAll();
-        return response()->json($result);
-    }
-
-
-    public function searchByName(Request $request)
-    {
-        $request = $this->usuarioService->searchByName($request->nome);
-    }
-
-
-    public function searchByEmail(Request $request)
-    {
-        $request = $this->usuarioService->searchByEmail($request->email);
-    }
-    public function delete($id)
-    {
-        $result = $this->usuarioService->delete($id);
-        return response()->json($result);
-    }
-
-    
-    
-    public function update (Request $request){
-$result = $this ->usuarioService ->update ($request->all());
-return response()->json($result);
 
     }
 
